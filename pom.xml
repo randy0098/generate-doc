@@ -20,7 +20,24 @@
         <jruby.version>9.1.8.0</jruby.version>
         <pdf.cjk.version>0.1.3</pdf.cjk.version>
         <pdf.cjk.kaigen.version>0.1.1</pdf.cjk.kaigen.version>
+        <swagger2markup.version>1.3.7</swagger2markup.version>
     </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jcenter-snapshots</id>
+            <name>jcenter</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>jcenter-releases</id>
+            <name>jcenter</name>
+            <url>http://jcenter.bintray.com</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
     <repositories>
         <repository>
@@ -30,23 +47,20 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>jcentral</id>
+            <name>bintray</name>
+            <url>http://jcenter.bintray.com</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jcenter-snapshots</id>
+            <name>jcenter</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+        </repository>
     </repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>jcenter-snapshots</id>
-			<name>jcenter</name>
-			<url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
-		</pluginRepository>
-		<pluginRepository>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<id>jcenter-releases</id>
-			<name>jcenter</name>
-			<url>http://jcenter.bintray.com</url>
-		</pluginRepository>
-	</pluginRepositories>
 	
     <dependencies>
         <dependency>
@@ -118,7 +132,7 @@
 			<plugin>
 				<groupId>io.github.swagger2markup</groupId>
 				<artifactId>swagger2markup-maven-plugin</artifactId>
-				<version>1.3.7</version>
+				<version>${swagger2markup.version}</version>
 				<executions>
                     <execution>
                         <id>generate-ASCIIDOC</id>
@@ -131,6 +145,7 @@
 							<outputFile>target/generated-docs/asciidoc/all</outputFile>
 							<config>
 								<swagger2markup.markupLanguage>ASCIIDOC</swagger2markup.markupLanguage>
+								<swagger2markup.pathsGroupedBy>TAGS</swagger2markup.pathsGroupedBy>
 							</config>
 						</configuration>
                     </execution>					
@@ -190,6 +205,9 @@
                                 <idseparator>-</idseparator>
                                 <!-- Set KaiGen Gothic Chinese theme -->
                                 <pdf-style>KaiGenGothicCN</pdf-style>
+								<sectnums>true</sectnums>
+								<toc>left</toc>
+								<toclevels>3</toclevels>                            
                             </attributes>
                         </configuration>
                     </execution>
@@ -202,10 +220,12 @@
 							<configuration>
 								<sourceDirectory>target/generated-docs/asciidoc</sourceDirectory>
 								<outputDirectory>target/generated-docs/html</outputDirectory>
-								<backend>html</backend>
+								<backend>html5</backend>
 								<sourceHighlighter>coderay</sourceHighlighter>
 								<attributes>
+									<sectnums>true</sectnums>
 									<toc>left</toc>
+									<toclevels>3</toclevels>
 								</attributes>
 							</configuration>
                     </execution>                    
