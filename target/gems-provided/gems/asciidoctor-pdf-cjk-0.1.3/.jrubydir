@@ -1,0 +1,9 @@
+..
+.
+asciidoctor-pdf-cjk.gemspec
+bin
+Gemfile
+lib
+LICENSE.txt
+Rakefile
+README.md

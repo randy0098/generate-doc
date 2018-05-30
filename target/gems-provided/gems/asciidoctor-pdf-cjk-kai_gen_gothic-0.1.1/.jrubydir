@@ -1,0 +1,11 @@
+..
+.
+asciidoctor-pdf-cjk-kai_gen_gothic.gemspec
+bin
+data
+exe
+Gemfile
+lib
+LICENSE.txt
+Rakefile
+README.md
