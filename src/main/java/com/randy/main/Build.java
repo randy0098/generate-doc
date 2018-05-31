@@ -1,10 +1,20 @@
 package com.randy.main;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Map.Entry;
+
+import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import io.github.swagger2markup.GroupBy;
 import io.github.swagger2markup.Language;
@@ -20,14 +30,22 @@ import io.swagger.models.Tag;
 import io.swagger.parser.SwaggerParser;
 
 public class Build {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws ConfigurationException, IOException {
+		Properties properties = new Properties();
+	    BufferedReader bufferedReader = new BufferedReader(new FileReader("config.properties"));
+	    properties.load(bufferedReader);
+	    String tags = properties.getProperty("tags");
+	    String[] array = tags.split(",");
+	    List<String> list = Arrays.asList(array);
+	    System.out.println(tags);
+		
 		Swagger swagger = new SwaggerParser().read("http://localhost:8091/v2/api-docs");
-		List<Tag> tags = swagger.getTags();
-		Iterator<Tag> tagIte = tags.iterator();
+		List<Tag> swTags = swagger.getTags();
+		Iterator<Tag> tagIte = swTags.iterator();
 		while(tagIte.hasNext()) {
 			Tag tag = tagIte.next();
 			String name = tag.getName();
-			if(name!=null && name.equals("人员")) {
+			if(name!=null && list.contains(name)) {
 			}else {
 				tagIte.remove();
 			}
@@ -46,10 +64,22 @@ public class Build {
 			while(opIte.hasNext()) {
 				Operation operation = opIte.next();
 				List<String> operationTags = operation.getTags();
-				if(operationTags!=null && operationTags.contains("人员")) {
-				}else {
+				
+				boolean flag = false;
+				for(String str:operationTags) {
+					if(list.contains(str)) {
+						flag = true;
+						break;
+					}
+				}
+				
+				if(!flag) {
 					opIte.remove();
 				}
+//				if(operationTags!=null && operationTags.contains("人员")) {
+//				}else {
+//					opIte.remove();
+//				}
 			}
 			
 			System.out.println("path:" + path);
