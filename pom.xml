@@ -63,6 +63,16 @@
     </repositories>
 	
     <dependencies>
+		<dependency>
+		    <groupId>io.github.swagger2markup</groupId>
+		    <artifactId>swagger2markup</artifactId>
+		    <version>1.3.3</version>
+		</dependency>    
+		<dependency>
+		    <groupId>io.swagger</groupId>
+		    <artifactId>swagger-parser</artifactId>
+		    <version>1.0.36</version>
+		</dependency>
         <dependency>
             <groupId>rubygems</groupId>
             <artifactId>asciidoctor-pdf-cjk</artifactId>
@@ -93,19 +103,18 @@
     <build>
         <defaultGoal>process-resources</defaultGoal>
         <plugins>
+        <!--
             <plugin>
                 <groupId>de.saumya.mojo</groupId>
                 <artifactId>gem-maven-plugin</artifactId>
                 <version>1.1.5</version>
                 <configuration>
                     <skip>true</skip>
-                    <!-- Align JRuby version with AsciidoctorJ to avoid redundant downloading -->
                     <jrubyVersion>${jruby.version}</jrubyVersion>
                     <gemHome>${project.build.directory}/gems</gemHome>
                     <gemPath>${project.build.directory}/gems</gemPath>
                 </configuration>
                 <executions>
-                    <!-- Install required gems in target directory -->
                     <execution>
                         <id>install-gems</id>
                         <goals>
@@ -113,8 +122,6 @@
                         </goals>
                         <phase>initialize</phase>
                     </execution>
-                    <!-- Download KaiGen Gothic fonts in target directory -->
-                    <!--
                     <execution>
                         <id>install-themes</id>
                         <goals>
@@ -122,13 +129,13 @@
                         </goals>
                         <phase>initialize</phase>
                         <configuration>
-                             Run post-installation script to download fonts 
                             <execArgs>${project.build.directory}/gems-provided/gems/asciidoctor-pdf-cjk-kai_gen_gothic-${pdf.cjk.kaigen.version}/exe/asciidoctor-pdf-cjk-kai_gen_gothic-install</execArgs>
                         </configuration>
                     </execution>
-                    -->
                 </executions>
             </plugin>
+            -->
+            <!-- 
 			<plugin>
 				<groupId>io.github.swagger2markup</groupId>
 				<artifactId>swagger2markup-maven-plugin</artifactId>
@@ -142,7 +149,7 @@
                         </goals>
 						<configuration>
 							<swaggerInput>http://localhost:8091/v2/api-docs</swaggerInput>
-							<outputFile>target/generated-docs/asciidoc/all</outputFile>
+							<outputDir>target/generated-docs/asciidoc/all</outputDir>
 							<config>
 								<swagger2markup.markupLanguage>ASCIIDOC</swagger2markup.markupLanguage>
 								<swagger2markup.pathsGroupedBy>TAGS</swagger2markup.pathsGroupedBy>
@@ -151,6 +158,7 @@
                     </execution>					
 				</executions>
 			</plugin>
+			-->
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>
@@ -217,17 +225,17 @@
                         <goals>
                             <goal>process-asciidoc</goal>
                         </goals>
-							<configuration>
-								<sourceDirectory>target/generated-docs/asciidoc</sourceDirectory>
-								<outputDirectory>target/generated-docs/html</outputDirectory>
-								<backend>html5</backend>
-								<sourceHighlighter>coderay</sourceHighlighter>
-								<attributes>
-									<sectnums>true</sectnums>
-									<toc>left</toc>
-									<toclevels>3</toclevels>
-								</attributes>
-							</configuration>
+						<configuration>
+							<sourceDirectory>target/generated-docs/asciidoc</sourceDirectory>
+							<outputDirectory>target/generated-docs/html</outputDirectory>
+							<backend>html5</backend>
+							<sourceHighlighter>coderay</sourceHighlighter>
+							<attributes>
+								<sectnums>true</sectnums>
+								<toc>left</toc>
+								<toclevels>3</toclevels>
+							</attributes>
+						</configuration>
                     </execution>                    
                     <!-- 
                     <execution>
@@ -257,5 +265,63 @@
                 </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+        	<plugins>
+        		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+        		<plugin>
+        			<groupId>org.eclipse.m2e</groupId>
+        			<artifactId>lifecycle-mapping</artifactId>
+        			<version>1.0.0</version>
+        			<configuration>
+        				<lifecycleMappingMetadata>
+        					<pluginExecutions>
+        						<pluginExecution>
+        							<pluginExecutionFilter>
+        								<groupId>
+        									org.asciidoctor
+        								</groupId>
+        								<artifactId>
+        									asciidoctor-maven-plugin
+        								</artifactId>
+        								<versionRange>
+        									[1.5.6,)
+        								</versionRange>
+        								<goals>
+        									<goal>
+        										process-asciidoc
+        									</goal>
+        								</goals>
+        							</pluginExecutionFilter>
+        							<action>
+        								<ignore></ignore>
+        							</action>
+        						</pluginExecution>
+        						<pluginExecution>
+        							<pluginExecutionFilter>
+        								<groupId>
+        									io.github.swagger2markup
+        								</groupId>
+        								<artifactId>
+        									swagger2markup-maven-plugin
+        								</artifactId>
+        								<versionRange>
+        									[1.3.7,)
+        								</versionRange>
+        								<goals>
+        									<goal>
+        										convertSwagger2markup
+        									</goal>
+        								</goals>
+        							</pluginExecutionFilter>
+        							<action>
+        								<ignore></ignore>
+        							</action>
+        						</pluginExecution>
+        					</pluginExecutions>
+        				</lifecycleMappingMetadata>
+        			</configuration>
+        		</plugin>
+        	</plugins>
+        </pluginManagement>
     </build>
 </project>
