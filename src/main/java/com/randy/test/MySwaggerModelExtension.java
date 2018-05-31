@@ -1,34 +1,27 @@
-package com.randy;
+package com.randy.test;
 
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import io.github.swagger2markup.GroupBy;
-import io.github.swagger2markup.Language;
-import io.github.swagger2markup.Swagger2MarkupConfig;
-import io.github.swagger2markup.Swagger2MarkupConverter;
-import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
-import io.github.swagger2markup.markup.builder.MarkupLanguage;
+import io.github.swagger2markup.spi.SwaggerModelExtension;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
 import io.swagger.models.Tag;
-import io.swagger.parser.SwaggerParser;
 
-public class Test {
+public class MySwaggerModelExtension extends SwaggerModelExtension{
 
-	public static void main(String[] args) {
-		Swagger swagger = new SwaggerParser().read("http://localhost:8091/v2/api-docs");
+	@Override
+	public void apply(Swagger swagger) {
 		List<Tag> tags = swagger.getTags();
 		Iterator<Tag> tagIte = tags.iterator();
 		while(tagIte.hasNext()) {
 			Tag tag = tagIte.next();
 			String name = tag.getName();
-			if(name!=null && name.equals("人员")) {
+			if(name!=null && name.equals("请假")) {
 			}else {
 				tagIte.remove();
 			}
@@ -53,25 +46,8 @@ public class Test {
 				}
 			}
 			
-//			for(Operation operation:operations) {
-//				List<String> operationTags = operation.getTags();
-//				String str = String.join(",", operationTags);
-//				System.out.println("operationTags:" + str);
-//			}
 			System.out.println("path:" + path);
 			System.out.println("------------------");
 		}
-		
-		Swagger2MarkupConfig config = new Swagger2MarkupConfigBuilder() 
-		        .withMarkupLanguage(MarkupLanguage.ASCIIDOC) 
-		        .withOutputLanguage(Language.ZH) 
-		        .withPathsGroupedBy(GroupBy.TAGS) 
-		        .build(); 
-		java.nio.file.Path outputFile = Paths.get("target/generated-docs/asciidoc/test1");
-		Swagger2MarkupConverter.from(swagger) 
-		.withConfig(config)
-        .build() 
-        .toFile(outputFile); 
 	}
-
 }

@@ -135,7 +135,25 @@
                 </executions>
             </plugin>
             -->
-            <!-- 
+            <!--
+			<plugin>  
+			   <groupId>org.codehaus.mojo</groupId>  
+			   <artifactId>exec-maven-plugin</artifactId>  
+			   <version>1.1.1</version>  
+			   <executions>  
+			    <execution>  
+			     <phase>initialize</phase>  
+			     <goals>  
+			      <goal>java</goal>  
+			     </goals>  
+			     <configuration>  
+			      <mainClass>com.randy.main.Build</mainClass>  
+			     </configuration>  
+			    </execution>  
+			   </executions>  
+			</plugin>
+			-->
+			<!--              
 			<plugin>
 				<groupId>io.github.swagger2markup</groupId>
 				<artifactId>swagger2markup-maven-plugin</artifactId>
@@ -149,16 +167,17 @@
                         </goals>
 						<configuration>
 							<swaggerInput>http://localhost:8091/v2/api-docs</swaggerInput>
-							<outputDir>target/generated-docs/asciidoc/all</outputDir>
+							<outputFile>target/generated-docs/asciidoc/all</outputFile>
 							<config>
 								<swagger2markup.markupLanguage>ASCIIDOC</swagger2markup.markupLanguage>
 								<swagger2markup.pathsGroupedBy>TAGS</swagger2markup.pathsGroupedBy>
+								<swagger2markup.outputLanguage>ZH</swagger2markup.outputLanguage>
 							</config>
 						</configuration>
                     </execution>					
 				</executions>
 			</plugin>
-			-->
+			 -->
             <plugin>
                 <groupId>org.asciidoctor</groupId>
                 <artifactId>asciidoctor-maven-plugin</artifactId>

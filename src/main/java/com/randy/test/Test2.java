@@ -1,4 +1,4 @@
-package com.randy;
+package com.randy.test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
