@@ -135,24 +135,23 @@
                 </executions>
             </plugin>
             -->
-            <!--
 			<plugin>  
 			   <groupId>org.codehaus.mojo</groupId>  
 			   <artifactId>exec-maven-plugin</artifactId>  
 			   <version>1.1.1</version>  
 			   <executions>  
 			    <execution>  
-			     <phase>initialize</phase>  
+			     <phase>process-sources</phase>  
 			     <goals>  
 			      <goal>java</goal>  
 			     </goals>  
 			     <configuration>  
-			      <mainClass>com.randy.main.Build</mainClass>  
+			      <mainClass>com.randy.main.Build</mainClass> 
+			      <classpathScope>runtime</classpathScope> 
 			     </configuration>  
 			    </execution>  
 			   </executions>  
 			</plugin>
-			-->
 			<!--              
 			<plugin>
 				<groupId>io.github.swagger2markup</groupId>

@@ -1,7 +1,6 @@
 package com.randy.main;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -9,18 +8,20 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.Properties;
 
-import org.apache.commons.configuration2.Configuration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+
+import com.randy.test.MySwaggerModelExtension;
 
 import io.github.swagger2markup.GroupBy;
 import io.github.swagger2markup.Language;
 import io.github.swagger2markup.Swagger2MarkupConfig;
 import io.github.swagger2markup.Swagger2MarkupConverter;
+import io.github.swagger2markup.Swagger2MarkupExtensionRegistry;
 import io.github.swagger2markup.builder.Swagger2MarkupConfigBuilder;
+import io.github.swagger2markup.builder.Swagger2MarkupExtensionRegistryBuilder;
 import io.github.swagger2markup.markup.builder.MarkupLanguage;
 import io.swagger.models.Model;
 import io.swagger.models.Operation;
@@ -47,7 +48,7 @@ public class Build {
 			String name = tag.getName();
 			if(name!=null && list.contains(name)) {
 			}else {
-				tagIte.remove();
+//				tagIte.remove();
 			}
 		}
 		
@@ -74,17 +75,17 @@ public class Build {
 				}
 				
 				if(!flag) {
-					opIte.remove();
-				}
-//				if(operationTags!=null && operationTags.contains("人员")) {
-//				}else {
 //					opIte.remove();
-//				}
+				}
 			}
 			
 			System.out.println("path:" + path);
 			System.out.println("------------------");
 		}
+		
+		Swagger2MarkupExtensionRegistry registry = new Swagger2MarkupExtensionRegistryBuilder() 
+				.withSwaggerModelExtension(new MySwaggerModelExtension())
+		        .build(); 
 		
 		Swagger2MarkupConfig config = new Swagger2MarkupConfigBuilder() 
 		        .withMarkupLanguage(MarkupLanguage.ASCIIDOC) 
@@ -92,7 +93,9 @@ public class Build {
 		        .withPathsGroupedBy(GroupBy.TAGS) 
 		        .build(); 
 		java.nio.file.Path outputFile = Paths.get("target/generated-docs/asciidoc/all");
+		
 		Swagger2MarkupConverter.from(swagger) 
+		.withExtensionRegistry(registry) 
 		.withConfig(config)
         .build() 
         .toFile(outputFile); 

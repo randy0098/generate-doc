@@ -21,7 +21,7 @@ public class MySwaggerModelExtension extends SwaggerModelExtension{
 		while(tagIte.hasNext()) {
 			Tag tag = tagIte.next();
 			String name = tag.getName();
-			if(name!=null && name.equals("请假")) {
+			if(name!=null && name.equals("用户")) {
 			}else {
 				tagIte.remove();
 			}
@@ -40,7 +40,7 @@ public class MySwaggerModelExtension extends SwaggerModelExtension{
 			while(opIte.hasNext()) {
 				Operation operation = opIte.next();
 				List<String> operationTags = operation.getTags();
-				if(operationTags!=null && operationTags.contains("人员")) {
+				if(operationTags!=null && operationTags.contains("用户")) {
 				}else {
 					opIte.remove();
 				}
