@@ -33,9 +33,6 @@ import io.swagger.models.parameters.Parameter;
 import io.swagger.parser.SwaggerParser;
 
 public class Build {
-	// private final static String swaggerApi =
-	// "http://localhost:8081/iscs/v2/api-docs";
-	private final static String swaggerApi = "http://localhost:8091/v2/api-docs";
 	private final static String outputFileLocation = "target/generated-docs/asciidoc/all";
 	private static Set<String> models = new HashSet<>();
 
@@ -51,7 +48,8 @@ public class Build {
 		Charset charset = Charset.defaultCharset();
 		System.out.println("charset:" + charset.name());
 
-		Swagger swagger = new SwaggerParser().read(swaggerApi);
+		String swaggerUrl = properties.getProperty("swaggerUrl");
+		Swagger swagger = new SwaggerParser().read(swaggerUrl);
 		List<Tag> swTags = swagger.getTags();
 		Iterator<Tag> tagIte = swTags.iterator();
 		while (tagIte.hasNext()) {
