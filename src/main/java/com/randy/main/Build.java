@@ -25,7 +25,6 @@ import io.swagger.models.Model;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.RefModel;
-import io.swagger.models.Scheme;
 import io.swagger.models.Swagger;
 import io.swagger.models.Tag;
 import io.swagger.models.parameters.BodyParameter;
@@ -74,20 +73,21 @@ public class Build {
 		while (ite.hasNext()) {
 			Map.Entry<String, Path> entry = ite.next();
 			String key = (String) entry.getKey();
-			System.out.println("key:" + key);
+			System.out.println("path:" + key);
 			Path path = (Path) entry.getValue();
 			List<Operation> operations = path.getOperations();
 			Iterator<Operation> opIte = operations.iterator();
 			while (opIte.hasNext()) {
 				Operation operation = opIte.next();
 				List<String> operationTags = operation.getTags();
-				System.out.println("opTag size:" + operationTags.size());
+//				System.out.println("opTag size:" + operationTags.size());
 
 				// 过滤不需要的方法
 				boolean flag = false;
 				// tags配置不为空时进行过滤操作
 				if (!tags.equalsIgnoreCase("")) {
 					for (String str : operationTags) {
+						System.out.println("opTag:" + str);
 						if (filterlist.contains(str)) {
 							flag = true;
 							break;
@@ -117,8 +117,7 @@ public class Build {
 				}
 			}
 
-			System.out.println("path:" + path);
-			System.out.println("------------------");
+			System.out.println("path end------------------------------------");
 		}
 
 		Map<String, Model> definitions = swagger.getDefinitions();
